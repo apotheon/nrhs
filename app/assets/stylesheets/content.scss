@@ -1,0 +1,19 @@
+.content {
+  margin: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 0.5em;
+  width: 70%;
+  background: $attention-grey;
+  padding: 3em;
+
+  h1 {
+    color: $nrhs-red;
+  }
+}
+
+.banner {
+  margin-left: auto;
+  margin-right: auto;
+  width: 700px;
+}

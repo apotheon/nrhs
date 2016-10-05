@@ -4,14 +4,29 @@
     <title>NRHS V-Twin Performance</title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
   </head>
 
   <body>
+    <%= render 'layouts/header' %>
+    <%= render 'layouts/main_nav' %>
+
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
     <%= yield %>
+
+    <div class="main-nav">
+      <ul class="userbar">
+        <% if user_signed_in? %>
+          <li><%= link_to 'My Settings', edit_user_registration_path, :method => :get %></li>
+          <li><%= link_to 'Log Out', destroy_user_session_path, :method => :delete %></li>
+        <% else %>
+          <li><%= link_to 'Sign Up', new_user_registration_path %></li>
+          <li><%= link_to 'Log In', new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </div>
   </body>
 </html>
