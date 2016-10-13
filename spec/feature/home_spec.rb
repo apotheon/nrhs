@@ -1,20 +1,24 @@
 require 'rails_helper'
 
 feature 'Home Index' do
-  describe 'home index page' do
+  context 'home index page' do
     before do
       visit root_path
     end
 
     scenario 'shows header navigation' do
-      expect(page).to have_content ['Where To Buy', 'Contact Us'].join ' '
+      ['Where To Buy', 'Contact Us'].each do |link_text|
+        expect(page).to have_link link_text
+      end
     end
 
     scenario 'shows main navigation' do
-      expect(page).to have_content [
+      [
         'Headwork', 'Engine Kits', 'Machine Work', 'Services',
         'Parts', 'Racing', 'Tech Tips', 'Specials'
-      ].join ' '
+      ].each do |link_text|
+        expect(page).to have_link link_text
+      end
     end
 
     scenario 'shows content title' do
