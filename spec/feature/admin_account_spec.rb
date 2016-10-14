@@ -6,6 +6,8 @@ feature 'Admin Account' do
 
     scenario 'admin visits account page' do
       sign_in admin
+      expect(admin.admin?).to be_truthy
+
       click_on 'Account Settings'
       expect(page).to have_content 'Edit Account Settings'
     end

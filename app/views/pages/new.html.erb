@@ -1,0 +1,17 @@
+<h2>Create New Page</h2>
+
+<%= form_for @page do |f| %>
+  <div>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :body %><br />
+    <%= f.text_area :body %>
+  </div>
+
+  <div>
+    <%= f.button 'Save Page' %>
+  </div>
+<% end %>

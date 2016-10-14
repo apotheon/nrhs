@@ -6,7 +6,7 @@ FactoryGirl.define do
 
   trait :admin do
     after :create do |user|
-      admin = true
+      user.admin = true
       user.save!
     end
   end

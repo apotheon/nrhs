@@ -15,7 +15,15 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
-    <%= yield %>
+    <div class="banner">
+      <a href="http://www.xlbuellforum.com/">
+        <%= image_tag '/img/xlbuellforum.png', title: 'XLBuellForum.com', alt: 'XLBuellForum.com' %>
+      </a>
+    </div>
+
+    <div class="content">
+      <%= yield %>
+    </div>
 
     <div class="main-nav">
       <ul class="userbar">
@@ -25,6 +33,10 @@
         <% else %>
           <li><%= link_to 'Sign Up', new_user_registration_path %></li>
           <li><%= link_to 'Log In', new_user_session_path %></li>
+        <% end %>
+
+        <% if admin_signed_in? %>
+          <li><%= link_to 'Manage Pages', pages_path %></li>
         <% end %>
       </ul>
     </div>
