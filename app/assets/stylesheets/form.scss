@@ -2,6 +2,7 @@ form > div {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -26,6 +27,7 @@ input, textarea {
   margin: 0;
   margin-bottom: 15px;
   border: none;
+  min-width: 200px;
   padding: 0.5em;
   background: $base-background;
   color: $attention-grey;
@@ -44,4 +46,8 @@ button {
   background: $nav-grey;
   color: $attention-grey;
   font-weight: bold;
+}
+
+button:hover {
+  cursor: pointer;
 }
