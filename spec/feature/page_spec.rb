@@ -3,7 +3,6 @@ require 'rails_helper'
 feature 'Page' do
   context 'signed in admin' do
     let(:admin) { create :user, :admin }
-
     let(:title) { 'Page Name' }
     let(:body) { 'Body text goes here.' }
 
@@ -38,8 +37,8 @@ feature 'Page' do
       visit page_path pages.first
       expect(page).to have_content first_title
       expect(page).to have_content first_body
-      click_on 'Edit Page'
 
+      click_on 'Edit Page'
       fill_in 'Body', with: body
       click_on 'Save Page'
 

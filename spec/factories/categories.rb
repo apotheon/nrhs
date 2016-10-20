@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :category do
-    name { FFaker::Hacker.noun }
+    name { FFaker::Lorem.word }
   end
 end

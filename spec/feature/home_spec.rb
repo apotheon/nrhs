@@ -12,15 +12,6 @@ feature 'Home Index' do
       end
     end
 
-    scenario 'shows main navigation' do
-      [
-        'Headwork', 'Engine Kits', 'Machine Work', 'Services',
-        'Parts', 'Racing', 'Tech Tips', 'Specials'
-      ].each do |link_text|
-        expect(page).to have_link link_text
-      end
-    end
-
     scenario 'shows content title' do
       expect(page).to have_content 'Did you know . . . ?'
     end

@@ -1,13 +1,7 @@
-<% main_nav_links = { %>
-  <% 'Headwork' => '', 'Engine Kits' => '', 'Machine Work' => '', %>
-  <% 'Services' => '', 'Parts' => '', 'Racing' => '', %>
-  <% 'Tech Tips' => '', 'Specials' => '' %>
-<% } %>
-
 <nav class="nav main-nav">
   <ul class="navbar">
-    <% main_nav_links.each_pair do |text, target| %>
-      <li><%= link_to text, target %></li>
+    <% get_active_categories.each do |category| %>
+      <li><%= link_to category.name, '' %></li>
     <% end %>
   </ul>
 </nav>
