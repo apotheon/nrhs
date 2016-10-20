@@ -1,14 +1,18 @@
 <%= form_for @page do |f| %>
-  <dl>
-    <dt><%= f.label :title %></dt>
-    <dd><%= f.text_field :title %></dd>
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
 
-    <dt><%= f.label :category %></dt>
-    <dd><%= f.text_field :category, value: @category_name %></dd>
+  <div>
+    <%= f.label :category %>
+    <%= f.text_field :category, value: @category_name %>
+  </div>
 
-    <dt><%= f.label :body %></dt>
-    <dd><%= f.text_area :body %></dd>
-  </dl>
+  <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
 
   <div>
     <%= f.button 'Save Page' %>
