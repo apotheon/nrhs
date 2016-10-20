@@ -1,0 +1,7 @@
+<h2>Category: <%= @category.name %></h2>
+
+<ul>
+  <% @category.pages.sort_by {|page| page.title }.each do |page| %>
+    <li>Title: <%= page.title %></li>
+  <% end %>
+</ul>

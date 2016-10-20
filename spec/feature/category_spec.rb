@@ -54,5 +54,35 @@ feature 'Category' do
         expect(page).to_not have_link category.name
       end
     end
+
+    context 'with multiple categories' do
+      let(:categories) { create_list :category, 3 }
+      let!(:pages_1) { create_list :page, 1, category: categories[0] }
+      let!(:pages_2) { create_list :page, 2, category: categories[1] }
+      let!(:pages_3) { create_list :page, 3, category: categories[2] }
+
+      let(:category_regex) do
+        categories.map {|category| category.name }.sort.join '.*'
+      end
+
+      let(:third_cat_pages_regex) do
+        pages_3.map {|page| "Title: #{page.title}" }.sort.join '.*'
+      end
+
+      scenario 'views category index' do
+        visit categories_path
+
+        expect(page).to have_content 'Categories'
+        expect(page.text).to match category_regex
+      end
+
+      scenario 'visits third category view' do
+        visit categories_path
+        click_on "view #{categories.last.name}"
+
+        expect(page).to have_content "Category: #{categories.last.name}"
+        expect(page.text).to match third_cat_pages_regex
+      end
+    end
   end
 end
