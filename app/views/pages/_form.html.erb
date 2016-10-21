@@ -6,7 +6,11 @@
 
   <div>
     <%= f.label :category %>
-    <%= f.text_field :category, value: @category_name %>
+    <%= f.select :category do %>
+      <% @category_selections.each do |category| %>
+        <%= content_tag :option, category.first %>
+      <% end %>
+    <% end %>
   </div>
 
   <div>

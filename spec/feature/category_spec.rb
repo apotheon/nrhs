@@ -11,26 +11,32 @@ feature 'Category' do
       sign_in admin
     end
 
-    scenario 'creates page with new category' do
+    scenario 'tries creating new page without existing category' do
       visit new_page_path
 
-      fill_in 'Title', with: title_text
-      fill_in 'Category', with: category_name
-      fill_in 'Body', with: body_text
-      click_on 'Save Page'
+      expect(page).to have_content 'Please create a category.'
+      expect(current_path).to eq new_category_path
+    end
 
-      expect(page).to have_link category_name
+    scenario 'creates a category', focus: true do
+      visit new_category_path
+
+      fill_in 'Category Name', with: category_name
+      click_on 'Save Category'
+
+      expect(Category.first.name).to eq category_name
     end
 
     context 'with existing page' do
       let(:category) { create :category, name: 'Headwork' }
-      let(:existing_page) { create :page, category_id: category.id }
+      let!(:new_category) { create :category, name: 'Engine Kits' }
+      let!(:existing_page) { create :page, category_id: category.id }
 
       scenario 'creates page with existing category' do
         visit new_page_path
 
         fill_in 'Title', with: title_text
-        fill_in 'Category', with: category.name
+        select category.name, from: 'Category'
         fill_in 'Body', with: body_text
         click_on 'Save Page'
 
@@ -43,14 +49,12 @@ feature 'Category' do
       end
 
       scenario 'changes category of page' do
-        new_category_name = 'Engine Kits'
-
         visit edit_page_path existing_page
 
-        fill_in 'Category', with: new_category_name
+        select new_category.name, from: 'Category'
         click_on 'Save Page'
 
-        expect(page).to have_link new_category_name
+        expect(page).to have_link new_category.name
         expect(page).to_not have_link category.name
       end
     end

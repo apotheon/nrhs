@@ -1,14 +1,19 @@
 class PagesController < ApplicationController
   before_action :find_page, only: [:show, :edit, :update]
   before_action :get_category_id, only: [:create, :update]
+  before_action :category_selections, only: [:new, :edit]
 
   def index
     @pages = Page.all
   end
 
   def new
-    @page = Page.new
-    @category_name = nil
+    if @category_selections.empty?
+      redirect_to new_category_path, alert: 'Please create a category.'
+    else
+      @page = Page.new
+      @category_name = nil
+    end
   end
 
   def show
@@ -64,5 +69,11 @@ class PagesController < ApplicationController
 
   def category_name
     params[:page][:category]
+  end
+
+  def category_selections
+    @category_selections = Category.order(:name).map do |category|
+      [category.name, category.id]
+    end
   end
 end
