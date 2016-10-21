@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :find_page, only: [:show, :edit, :update]
+  before_action :find_page, only: [:show, :edit, :update, :destroy]
   before_action :get_category_id, only: [:create, :update]
   before_action :category_selections, only: [:new, :edit]
 
@@ -27,9 +27,9 @@ class PagesController < ApplicationController
     @page = Page.new page_params.merge(category_id: @category_id)
 
     if @page.save
-      redirect_to @page, success: 'Page Created'
+      redirect_to @page, notice: 'Page Created'
     else
-      flash[:error] = @page.errors.full_messages.to_sentence
+      flash[:alert] = @page.errors.full_messages.to_sentence
       render 'new'
     end
   end
@@ -38,10 +38,19 @@ class PagesController < ApplicationController
     @page.attributes = page_params.merge(category_id: @category_id)
 
     if @page.save
-      redirect_to @page, success: 'Page Updated'
+      redirect_to @page, notice: 'Page Updated'
     else
-      flash[:error] = @page.errors.full_messages.to_sentence
+      flash[:alert] = @page.errors.full_messages.to_sentence
       render 'edit'
+    end
+  end
+
+  def destroy
+    if @page.destroy
+      redirect_to pages_path, notice: 'Page Deleted'
+    else
+      flash[:alert] = @page.errors.full_messages.to_sentence
+      render 'show'
     end
   end
 

@@ -30,6 +30,18 @@ feature 'Page' do
       expect(page).to have_content body
     end
 
+    scenario 'deletes an existing page' do
+      page_title = pages.last.title
+
+      expect do
+        visit page_path pages.last
+        click_on 'Delete Page'
+
+        expect(page).to have_content 'Page Deleted'
+        expect(Page.find_by title: page_title).to be_nil
+      end.to change { Page.all.size }.by -1
+    end
+
     scenario 'edits existing page' do
       first_title = pages.first.title.clone
       first_body = pages.first.body.clone

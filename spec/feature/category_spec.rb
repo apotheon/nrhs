@@ -18,7 +18,7 @@ feature 'Category' do
       expect(current_path).to eq new_category_path
     end
 
-    scenario 'creates a category', focus: true do
+    scenario 'creates a category' do
       visit new_category_path
 
       fill_in 'Category Name', with: category_name
@@ -31,6 +31,15 @@ feature 'Category' do
       let(:category) { create :category, name: 'Headwork' }
       let!(:new_category) { create :category, name: 'Engine Kits' }
       let!(:existing_page) { create :page, category_id: category.id }
+
+      scenario 'deletes category' do
+        category_name = category.name
+
+        expect do
+          visit category_path category
+          click_on 'Delete Category'
+        end.to change { Page.all.size }.by -1
+      end
 
       scenario 'creates page with existing category' do
         visit new_page_path
@@ -60,10 +69,10 @@ feature 'Category' do
     end
 
     context 'with multiple categories' do
-      let(:categories) { create_list :category, 3 }
-      let!(:pages_1) { create_list :page, 1, category: categories[0] }
-      let!(:pages_2) { create_list :page, 2, category: categories[1] }
-      let!(:pages_3) { create_list :page, 3, category: categories[2] }
+      let(:categories) { create_list :category, 4 }
+      let!(:pages_1) { create_list :page, 1, category: categories[1] }
+      let!(:pages_2) { create_list :page, 2, category: categories[2] }
+      let!(:pages_3) { create_list :page, 3, category: categories[3] }
 
       let(:category_regex) do
         categories.map {|category| category.name }.sort.join '.*'
@@ -71,6 +80,15 @@ feature 'Category' do
 
       let(:third_cat_pages_regex) do
         pages_3.map {|page| "Title: #{page.title}" }.sort.join '.*'
+      end
+
+      let(:active_category_regex) do
+        categories[1..3].map {|category| category.name }.sort.join '.*'
+      end
+
+      scenario 'views home page' do
+        visit root_path
+        expect(page.text).to match active_category_regex
       end
 
       scenario 'views category index' do
@@ -86,6 +104,21 @@ feature 'Category' do
 
         expect(page).to have_content "Category: #{categories.last.name}"
         expect(page.text).to match third_cat_pages_regex
+      end
+
+      scenario 'deletes inactive category' do
+        category_name = categories.first.name
+        page_number = Page.all.size
+
+        expect do
+          visit category_path categories.first
+          click_on 'Delete Category'
+
+          visit categories_path
+          expect(page).to_not have_content category_name
+        end.to change { Category.all.size }.by -1
+
+        expect(Page.all.size).to eq page_number
       end
     end
   end

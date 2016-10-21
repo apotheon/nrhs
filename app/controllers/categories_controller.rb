@@ -1,10 +1,11 @@
 class CategoriesController < ApplicationController
+  before_action :find_category, only: [:show, :destroy]
+
   def index
     @categories = Category.order(:name)
   end
 
   def show
-    @category = Category.find params[:id]
   end
 
   def new
@@ -18,14 +19,27 @@ class CategoriesController < ApplicationController
       flash[:alert] = "Category #{category_params[:name]} exists."
       render 'new'
     elsif @category.save
-      redirect_to @category, success: 'Category Created'
+      redirect_to @category, notice: 'Category Created'
     else
-      flash[:error] = @category.errors.full_messages.to_sentence
+      flash[:alert] = @category.errors.full_messages.to_sentence
       render 'new'
     end
   end
 
+  def destroy
+    if @category.destroy
+      redirect_to category_path, notice: 'Page Deleted'
+    else
+      flash[:alert] = @category.errors.full_messages.to_sentence
+      render 'show'
+    end
+  end
+
   private
+
+  def find_category
+    @category = Category.find params[:id]
+  end
 
   def category_params
     params.require(:category).permit :name
