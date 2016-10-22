@@ -26,6 +26,35 @@
     a:hover {
       color: $rich-red;
     }
+
+    ul {
+      visibility: hidden;
+      display: block;
+      position: absolute;
+      margin-top: 3px;
+
+      li {
+        display: block;
+        padding: 0;
+        text-align: left;
+
+        a {
+          display: block;
+          margin: 1px;
+          background: $nav-grey;
+          padding: 1em;
+          color: $attention-grey;
+        }
+
+        a:hover {
+          color: $rich-red;
+        }
+      }
+    }
+  }
+
+  li:hover ul {
+    visibility: visible;
   }
 
   ul.userbar {
