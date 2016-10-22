@@ -1,5 +1,5 @@
 module ApplicationHelper
   def get_active_categories
-    Category.joins(:pages).order :name
+    Category.order(:name).reject {|c| c.pages.empty? }
   end
 end
