@@ -1,7 +1,8 @@
 <% if admin_signed_in? %>
   <%= link_to 'Edit Page', edit_page_path(@page) %>
+  <%= link_to 'Delete Page', page_path(@page), method: :delete %>
 <% end %>
 
-<h2><%= @page.title %></h2>
+<h2>Page: <%= @page.title %></h2>
 
 <%= @page.body %>

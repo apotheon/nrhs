@@ -1,11 +1,20 @@
 <%= form_for @page do |f| %>
   <div>
-    <%= f.label :title %><br />
+    <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
 
   <div>
-    <%= f.label :body %><br />
+    <%= f.label :category %>
+    <%= f.select :category do %>
+      <% @category_selections.each do |category| %>
+        <%= content_tag :option, category.first %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :body %>
     <%= f.text_area :body %>
   </div>
 

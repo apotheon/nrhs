@@ -1,0 +1,7 @@
+<h3>Manage Categories</h3>
+
+<ul>
+  <% @categories.each do |category| %>
+    <li><%= link_to "view #{category.name}", category_path(category) %></li>
+  <% end %>
+</ul>

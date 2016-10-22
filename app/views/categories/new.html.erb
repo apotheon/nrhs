@@ -1,0 +1,10 @@
+<%= form_for @category do |f| %>
+  <div>
+    <%= f.label :name, 'Category Name' %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.button 'Save Category' %>
+  </div>
+<% end %>

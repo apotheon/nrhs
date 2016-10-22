@@ -1,0 +1,53 @@
+form > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 600px;
+}
+
+label {
+  float: left;
+  margin: 0;
+  margin-right: 10px;
+  flex-basis: 15%;
+  min-width: 100px;
+  font-weight: bold;
+}
+
+label:after {
+  content: ":";
+}
+
+input, textarea, select {
+  flex-grow: 1;
+  margin: 0;
+  margin-bottom: 15px;
+  border: none;
+  min-width: 200px;
+  padding: 0.5em;
+  background: $base-background;
+  color: $attention-grey;
+  text-align: left;
+  font-weight: bold;
+}
+
+textarea {
+  height: 13em;
+}
+
+button {
+  border: none;
+  width: 100%;
+  padding: 0.5em;
+  background: $nav-grey;
+  color: $attention-grey;
+  font-weight: bold;
+}
+
+button:hover {
+  cursor: pointer;
+}
