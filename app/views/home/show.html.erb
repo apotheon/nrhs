@@ -1,0 +1,7 @@
+<% if admin_signed_in? %>
+  <%= link_to 'Edit Homepage', edit_home_path %>
+<% end %>
+
+<h2><%= @home.title %></h2>
+
+<%= @home.body %>
