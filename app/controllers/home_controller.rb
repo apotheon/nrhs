@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-  before_action :get_home_content, only: [:edit, :show, :update]
   def index
     show
     render :show
@@ -14,6 +13,7 @@ class HomeController < ApplicationController
   end
 
   def update
+    get_home_content
     @home.attributes = home_params.merge(id: Home.first.id)
 
     if @home.save
