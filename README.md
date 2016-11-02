@@ -34,3 +34,10 @@ Visit `http://localhost:3000`.
 
 
 ## Deployment
+
+## Administration
+
+### Create Admin Account
+
+    $ cd /path/to/project
+    $ bundle exec rake nrhs:create_admin[admin@example.com,password]
