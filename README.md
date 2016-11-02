@@ -35,6 +35,8 @@ Visit `http://localhost:3000`.
 
 ## Deployment
 
+pending
+
 ## Administration
 
 ### Create Admin Account
