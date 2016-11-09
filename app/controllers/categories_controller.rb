@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :find_category, only: [:show, :destroy]
+  before_action :find_category, only: [:show, :edit, :destroy]
 
   def index
     @categories = Category.order(:name)
@@ -10,6 +10,9 @@ class CategoriesController < ApplicationController
 
   def new
     @category = Category.new
+  end
+
+  def edit
   end
 
   def create

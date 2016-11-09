@@ -19,7 +19,9 @@ feature 'Category' do
     end
 
     scenario 'creates a category' do
-      visit new_category_path
+      visit root_path
+      click_on 'Manage Categories'
+      click_on 'New Category'
 
       fill_in 'Category Name', with: category_name
       click_on 'Save Category'
@@ -31,14 +33,24 @@ feature 'Category' do
       let(:category) { create :category, name: 'Headwork' }
       let!(:new_category) { create :category, name: 'Engine Kits' }
       let!(:existing_page) { create :page, category_id: category.id }
+      let!(:category_name) { category.name }
 
       scenario 'deletes category' do
-        category_name = category.name
-
         expect do
           visit category_path category
           click_on 'Delete Category'
         end.to change { Page.all.size }.by -1
+      end
+
+      scenario 'changes category name' do
+        visit category_path category
+        click_on 'Edit Category'
+
+        fill_in 'Category Name', with: 'Bob White'
+        click_on 'Save Category'
+
+        expect(page).to have_content 'Bob White'
+        expect(page).to_not have_content category_name
       end
 
       scenario 'creates page with existing category' do
