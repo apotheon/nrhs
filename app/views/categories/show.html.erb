@@ -5,6 +5,8 @@
 
 <h2>Category: <%= @category.name %></h2>
 
+<%= @category.body %>
+
 <ul>
   <% @category.pages.sort_by {|page| page.title }.each do |page| %>
     <li>Title: <%= page.title %></li>

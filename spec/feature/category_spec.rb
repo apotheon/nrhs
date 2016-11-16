@@ -18,15 +18,17 @@ feature 'Category' do
       expect(current_path).to eq new_category_path
     end
 
-    scenario 'creates a category' do
+    scenario 'creates a category', focus: true do
       visit root_path
       click_on 'Manage Categories'
       click_on 'New Category'
 
       fill_in 'Category Name', with: category_name
+      fill_in 'Body', with: body_text
       click_on 'Save Category'
 
       expect(Category.first.name).to eq category_name
+      expect(page).to have_content body_text
     end
 
     context 'with existing page' do
