@@ -18,14 +18,16 @@ feature 'Category' do
       expect(current_path).to eq new_category_path
     end
 
-    scenario 'creates a category', focus: true do
+    scenario 'creates a category' do
       visit root_path
       click_on 'Manage Categories'
       click_on 'New Category'
 
-      fill_in 'Category Name', with: category_name
-      fill_in 'Body', with: body_text
-      click_on 'Save Category'
+      expect do
+        fill_in 'Category Name', with: category_name
+        fill_in 'Body', with: body_text
+        click_on 'Save Category'
+      end.to change { Category.where(name: category_name).count }
 
       expect(Category.first.name).to eq category_name
       expect(page).to have_content body_text
@@ -53,6 +55,19 @@ feature 'Category' do
 
         expect(page).to have_content 'Bob White'
         expect(page).to_not have_content category_name
+      end
+
+      scenario 'tries to create duplicate category' do
+        visit categories_path
+        click_on 'New Category'
+
+        expect do
+          fill_in 'Category Name', with: category.name
+          fill_in 'Body', with: body_text
+          click_on 'Save Category'
+        end.to_not change { Category.where(name: category.name).count }
+
+        expect(page).to have_content "Category #{category.name} exists."
       end
 
       scenario 'creates page with existing category' do
