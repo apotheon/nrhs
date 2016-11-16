@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :find_category, only: [:show, :destroy]
+  before_action :find_category, only: [:show, :edit, :update, :destroy]
 
   def index
     @categories = Category.order(:name)
@@ -12,17 +12,34 @@ class CategoriesController < ApplicationController
     @category = Category.new
   end
 
+  def edit
+  end
+
   def create
     @category = Category.new category_params
 
     if Category.find_by name: category_params[:name]
-      flash[:alert] = "Category #{category_params[:name]} exists."
-      render 'new'
+      render_alert "Category #{category_params[:name]} exists."
+    elsif category_params[:name].empty?
+      render_alert 'Please supply a category name.'
     elsif @category.save
       redirect_to @category, notice: 'Category Created'
     else
-      flash[:alert] = @category.errors.full_messages.to_sentence
-      render 'new'
+      render_alert @category.errors.full_messages.to_sentence
+    end
+  end
+
+  def update
+    if category_params[:name].empty?
+      render_alert 'Please supply a category name.', 'edit'
+    else
+      @category.attributes = category_params
+
+      if @category.save
+        redirect_to @category, notice: 'Category Updated'
+      else
+        render_alert @category.errors.full_messages.to_sentence, 'edit'
+      end
     end
   end
 
@@ -30,8 +47,7 @@ class CategoriesController < ApplicationController
     if @category.destroy
       redirect_to category_path, notice: 'Page Deleted'
     else
-      flash[:alert] = @category.errors.full_messages.to_sentence
-      render 'show'
+      render_alert @category.errors.full_messages.to_sentence, 'show'
     end
   end
 
@@ -41,7 +57,12 @@ class CategoriesController < ApplicationController
     @category = Category.find params[:id]
   end
 
+  def render_alert message, view='new'
+    flash[:alert] = message
+    render view
+  end
+
   def category_params
-    params.require(:category).permit :name
+    params.require(:category).permit :name, :body
   end
 end

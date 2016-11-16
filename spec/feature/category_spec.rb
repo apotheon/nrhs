@@ -19,26 +19,63 @@ feature 'Category' do
     end
 
     scenario 'creates a category' do
-      visit new_category_path
+      visit root_path
+      click_on 'Manage Categories'
+      click_on 'New Category'
 
-      fill_in 'Category Name', with: category_name
-      click_on 'Save Category'
+      expect do
+        fill_in 'Category Name', with: category_name
+        fill_in 'Body', with: body_text
+        click_on 'Save Category'
+      end.to change { Category.where(name: category_name).count }
 
       expect(Category.first.name).to eq category_name
+      expect(page).to have_content body_text
+    end
+
+    scenario 'tries to create category without name' do
+      visit new_category_path
+
+      fill_in 'Body', with: body_text
+      click_on 'Save Category'
+
+      expect(page).to have_content 'Please supply a category name.'
     end
 
     context 'with existing page' do
       let(:category) { create :category, name: 'Headwork' }
       let!(:new_category) { create :category, name: 'Engine Kits' }
       let!(:existing_page) { create :page, category_id: category.id }
+      let!(:category_name) { category.name }
 
       scenario 'deletes category' do
-        category_name = category.name
-
         expect do
           visit category_path category
           click_on 'Delete Category'
         end.to change { Page.all.size }.by -1
+      end
+
+      scenario 'changes category name' do
+        visit category_path category
+        click_on 'Edit Category'
+
+        fill_in 'Category Name', with: 'Bob White'
+        click_on 'Save Category'
+
+        expect(page).to have_content 'Bob White'
+        expect(page).to_not have_content category_name
+      end
+
+      scenario 'tries to create duplicate category' do
+        visit new_category_path
+
+        expect do
+          fill_in 'Category Name', with: category.name
+          fill_in 'Body', with: body_text
+          click_on 'Save Category'
+        end.to_not change { Category.where(name: category.name).count }
+
+        expect(page).to have_content "Category #{category.name} exists."
       end
 
       scenario 'creates page with existing category' do
@@ -66,6 +103,15 @@ feature 'Category' do
         expect(page).to have_link new_category.name
         expect(page).to_not have_link category.name
       end
+
+      scenario 'deletes existing category name' do
+        visit edit_category_path category
+
+        fill_in 'Name', with: ''
+        click_on 'Save Category'
+
+        expect(page).to have_content 'Please supply a category name.'
+      end
     end
 
     context 'with multiple categories' do
@@ -79,7 +125,7 @@ feature 'Category' do
       end
 
       let(:third_cat_pages_regex) do
-        pages_3.map {|page| "Title: #{page.title}" }.sort.join '.*'
+        pages_3.map {|page| page.title }.sort.join '.*'
       end
 
       let(:active_category_regex) do
@@ -102,7 +148,7 @@ feature 'Category' do
         visit categories_path
         click_on "view #{categories.last.name}"
 
-        expect(page).to have_content "Category: #{categories.last.name}"
+        expect(page).to have_selector 'h2', text: categories.last.name
         expect(page.text).to match third_cat_pages_regex
       end
 

@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   before_action :find_page, only: [:show, :edit, :update, :destroy]
   before_action :get_category_id, only: [:create, :update]
-  before_action :category_selections, only: [:new, :edit]
+  before_action :category_selections, only: [:new, :edit, :update, :create]
 
   def index
     @pages = Page.all
@@ -26,22 +26,28 @@ class PagesController < ApplicationController
   def create
     @page = Page.new page_params.merge(category_id: @category_id)
 
-    if @page.save
+    if Page.find_by title: page_params[:title]
+      render_alert "Page #{page_params[:title]} exists."
+    elsif page_params[:title].empty?
+      render_alert 'Please supply a page title.'
+    elsif @page.save
       redirect_to @page, notice: 'Page Created'
     else
-      flash[:alert] = @page.errors.full_messages.to_sentence
-      render 'new'
+      render_alert @page.errors.full_messages.to_sentence
     end
   end
 
   def update
-    @page.attributes = page_params.merge(category_id: @category_id)
-
-    if @page.save
-      redirect_to @page, notice: 'Page Updated'
+    if page_params[:title].empty?
+      render_alert 'Please supply a page title.', 'edit'
     else
-      flash[:alert] = @page.errors.full_messages.to_sentence
-      render 'edit'
+      @page.attributes = page_params.merge(category_id: @category_id)
+
+      if @page.save
+        redirect_to @page, notice: 'Page Updated'
+      else
+        render_alert @page.errors.full_messages.to_sentence, 'edit'
+      end
     end
   end
 
@@ -49,8 +55,7 @@ class PagesController < ApplicationController
     if @page.destroy
       redirect_to pages_path, notice: 'Page Deleted'
     else
-      flash[:alert] = @page.errors.full_messages.to_sentence
-      render 'show'
+      render_alert @page.errors.full_messages.to_sentence, 'show'
     end
   end
 
@@ -74,6 +79,11 @@ class PagesController < ApplicationController
 
   def get_category_id
     @category_id = (find_category or create_category).id
+  end
+
+  def render_alert message, view='new'
+    flash[:alert] = message
+    render view
   end
 
   def category_name
