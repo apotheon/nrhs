@@ -58,8 +58,7 @@ feature 'Category' do
       end
 
       scenario 'tries to create duplicate category' do
-        visit categories_path
-        click_on 'New Category'
+        visit new_category_path
 
         expect do
           fill_in 'Category Name', with: category.name
@@ -108,7 +107,7 @@ feature 'Category' do
       end
 
       let(:third_cat_pages_regex) do
-        pages_3.map {|page| "Title: #{page.title}" }.sort.join '.*'
+        pages_3.map {|page| page.title }.sort.join '.*'
       end
 
       let(:active_category_regex) do
@@ -131,7 +130,7 @@ feature 'Category' do
         visit categories_path
         click_on "view #{categories.last.name}"
 
-        expect(page).to have_content "Category: #{categories.last.name}"
+        expect(page).to have_selector 'h2', text: categories.last.name
         expect(page.text).to match third_cat_pages_regex
       end
 

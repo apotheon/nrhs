@@ -6,7 +6,8 @@ feature 'Page' do
     let(:title) { 'Page Name' }
     let(:body) { 'Body text goes here.' }
 
-    let!(:pages) { create_list :page, 3 }
+    let(:category) { create :category }
+    let!(:pages) { create_list :page, 3, category: category }
 
     before do
       sign_in admin
@@ -22,12 +23,27 @@ feature 'Page' do
       visit new_page_path
       expect(page).to have_content 'Create New Page'
 
-      fill_in 'Title', with: title
-      fill_in 'Body', with: body
-      click_on 'Save Page'
+      expect do
+        fill_in 'Title', with: title
+        fill_in 'Body', with: body
+        click_on 'Save Page'
+      end.to change { Page.where(title: title).count }
 
       expect(page).to have_content title
       expect(page).to have_content body
+    end
+
+    scenario 'tries to create duplicate page' do
+      visit new_page_path
+      last_title = pages.last.title
+
+      expect do
+        fill_in 'Title', with: last_title
+        fill_in 'Body', with: body
+        click_on 'Save Page'
+      end.to_not change { Page.where(title: last_title).count }
+
+      expect(page).to have_content "Page #{last_title} exists."
     end
 
     scenario 'deletes an existing page' do

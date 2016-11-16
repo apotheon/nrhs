@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   before_action :find_page, only: [:show, :edit, :update, :destroy]
   before_action :get_category_id, only: [:create, :update]
-  before_action :category_selections, only: [:new, :edit]
+  before_action :category_selections, only: [:new, :edit, :create]
 
   def index
     @pages = Page.all
@@ -26,7 +26,10 @@ class PagesController < ApplicationController
   def create
     @page = Page.new page_params.merge(category_id: @category_id)
 
-    if @page.save
+    if Page.find_by title: page_params[:title]
+      flash[:alert] = "Page #{page_params[:title]} exists."
+      render 'new'
+    elsif @page.save
       redirect_to @page, notice: 'Page Created'
     else
       flash[:alert] = @page.errors.full_messages.to_sentence
