@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :find_category, only: [:show, :edit, :destroy]
+  before_action :find_category, only: [:show, :edit, :update, :destroy]
 
   def index
     @categories = Category.order(:name)
@@ -21,11 +21,30 @@ class CategoriesController < ApplicationController
     if Category.find_by name: category_params[:name]
       flash[:alert] = "Category #{category_params[:name]} exists."
       render 'new'
+    elsif category_params[:name].empty?
+      flash[:alert] = 'Please supply a category name.'
+      render 'new'
     elsif @category.save
       redirect_to @category, notice: 'Category Created'
     else
       flash[:alert] = @category.errors.full_messages.to_sentence
       render 'new'
+    end
+  end
+
+  def update
+    if category_params[:name].empty?
+      flash[:alert] = 'Please supply a category name.'
+      render 'edit'
+    else
+      @category.attributes = category_params
+
+      if @category.save
+        redirect_to @category, notice: 'Category Updated'
+      else
+        flash[:alert] = @category.errors.full_messages.to_sentence
+        render 'edit'
+      end
     end
   end
 

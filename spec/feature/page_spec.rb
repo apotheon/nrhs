@@ -46,6 +46,24 @@ feature 'Page' do
       expect(page).to have_content "Page #{last_title} exists."
     end
 
+    scenario 'tries to create a page with no name' do
+      visit new_page_path
+
+      fill_in 'Body', with: body
+      click_on 'Save Page'
+
+      expect(page).to have_content 'Please supply a page title.'
+    end
+
+    scenario 'deletes existing page title' do
+      visit edit_page_path pages.first
+
+      fill_in 'Title', with: ''
+      click_on 'Save Page'
+
+      expect(page).to have_content 'Please supply a page title.'
+    end
+
     scenario 'deletes an existing page' do
       page_title = pages.last.title
 

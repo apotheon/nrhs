@@ -33,6 +33,15 @@ feature 'Category' do
       expect(page).to have_content body_text
     end
 
+    scenario 'tries to create category without name' do
+      visit new_category_path
+
+      fill_in 'Body', with: body_text
+      click_on 'Save Category'
+
+      expect(page).to have_content 'Please supply a category name.'
+    end
+
     context 'with existing page' do
       let(:category) { create :category, name: 'Headwork' }
       let!(:new_category) { create :category, name: 'Engine Kits' }
@@ -93,6 +102,15 @@ feature 'Category' do
 
         expect(page).to have_link new_category.name
         expect(page).to_not have_link category.name
+      end
+
+      scenario 'deletes existing category name' do
+        visit edit_category_path category
+
+        fill_in 'Name', with: ''
+        click_on 'Save Category'
+
+        expect(page).to have_content 'Please supply a category name.'
       end
     end
 
