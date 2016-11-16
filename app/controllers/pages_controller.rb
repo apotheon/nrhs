@@ -26,36 +26,27 @@ class PagesController < ApplicationController
   def create
     @page = Page.new page_params.merge(category_id: @category_id)
 
-    if page_params[:title].empty?
-      @category_name = nil
-
-      flash[:alert] = 'Please supply a page title.'
-      render 'new'
+    if Page.find_by title: page_params[:title]
+      render_alert "Page #{page_params[:title]} exists."
+    elsif page_params[:title].empty?
+      render_alert 'Please supply a page title.'
+    elsif @page.save
+      redirect_to @page, notice: 'Page Created'
     else
-      if Page.find_by title: page_params[:title]
-        flash[:alert] = "Page #{page_params[:title]} exists."
-        render 'new'
-      elsif @page.save
-        redirect_to @page, notice: 'Page Created'
-      else
-        flash[:alert] = @page.errors.full_messages.to_sentence
-        render 'new'
-      end
+      render_alert @page.errors.full_messages.to_sentence
     end
   end
 
   def update
     if page_params[:title].empty?
-      flash[:alert] = 'Please supply a page title.'
-      render 'edit'
+      render_alert 'Please supply a page title.', 'edit'
     else
       @page.attributes = page_params.merge(category_id: @category_id)
 
       if @page.save
         redirect_to @page, notice: 'Page Updated'
       else
-        flash[:alert] = @page.errors.full_messages.to_sentence
-        render 'edit'
+        render_alert @page.errors.full_messages.to_sentence, 'edit'
       end
     end
   end
@@ -64,8 +55,7 @@ class PagesController < ApplicationController
     if @page.destroy
       redirect_to pages_path, notice: 'Page Deleted'
     else
-      flash[:alert] = @page.errors.full_messages.to_sentence
-      render 'show'
+      render_alert @page.errors.full_messages.to_sentence, 'show'
     end
   end
 
@@ -89,6 +79,11 @@ class PagesController < ApplicationController
 
   def get_category_id
     @category_id = (find_category or create_category).id
+  end
+
+  def render_alert message, view='new'
+    flash[:alert] = message
+    render view
   end
 
   def category_name

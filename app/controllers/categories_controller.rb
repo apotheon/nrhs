@@ -19,31 +19,26 @@ class CategoriesController < ApplicationController
     @category = Category.new category_params
 
     if Category.find_by name: category_params[:name]
-      flash[:alert] = "Category #{category_params[:name]} exists."
-      render 'new'
+      render_alert "Category #{category_params[:name]} exists."
     elsif category_params[:name].empty?
-      flash[:alert] = 'Please supply a category name.'
-      render 'new'
+      render_alert 'Please supply a category name.'
     elsif @category.save
       redirect_to @category, notice: 'Category Created'
     else
-      flash[:alert] = @category.errors.full_messages.to_sentence
-      render 'new'
+      render_alert @category.errors.full_messages.to_sentence
     end
   end
 
   def update
     if category_params[:name].empty?
-      flash[:alert] = 'Please supply a category name.'
-      render 'edit'
+      render_alert 'Please supply a category name.', 'edit'
     else
       @category.attributes = category_params
 
       if @category.save
         redirect_to @category, notice: 'Category Updated'
       else
-        flash[:alert] = @category.errors.full_messages.to_sentence
-        render 'edit'
+        render_alert @category.errors.full_messages.to_sentence, 'edit'
       end
     end
   end
@@ -52,8 +47,7 @@ class CategoriesController < ApplicationController
     if @category.destroy
       redirect_to category_path, notice: 'Page Deleted'
     else
-      flash[:alert] = @category.errors.full_messages.to_sentence
-      render 'show'
+      render_alert @category.errors.full_messages.to_sentence, 'show'
     end
   end
 
@@ -61,6 +55,11 @@ class CategoriesController < ApplicationController
 
   def find_category
     @category = Category.find params[:id]
+  end
+
+  def render_alert message, view='new'
+    flash[:alert] = message
+    render view
   end
 
   def category_params
