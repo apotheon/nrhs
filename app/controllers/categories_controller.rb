@@ -1,8 +1,14 @@
 class CategoriesController < ApplicationController
+  include UserHelper
+
+  before_action :redirect_non_admin, only: [
+    :index, :new, :edit, :create, :update, :destroy
+  ]
+
   before_action :find_category, only: [:show, :edit, :update, :destroy]
 
   def index
-    @categories = Category.order(:name)
+    @categories = Category.order :name
   end
 
   def show

@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 feature 'Authorization' do
+  let(:category_name) { 'Headwork' }
+  let(:category_body) { 'This is category body text.' }
+
+  let(:page_title) { 'Port, Polish, Deck' }
+  let(:page_body) { 'This is page body text.' }
+
   context 'logged in admin' do
     let(:admin) { create :user, :admin }
 
@@ -9,9 +15,6 @@ feature 'Authorization' do
     end
 
     context 'visiting home index page' do
-      let(:category_name) { 'Headwork' }
-      let(:category_body) { 'This is category body text.' }
-
       scenario 'visits account page' do
         expect(admin.admin?).to be_truthy
 
@@ -43,9 +46,6 @@ feature 'Authorization' do
           create :category, name: category_name, body: category_body
         end
 
-        let(:page_title) { 'Port, Polish, Deck' }
-        let(:page_body) { 'This is page body text.' }
-
         scenario 'creates a page' do
           visit pages_path
           click_on 'New Page'
@@ -65,9 +65,74 @@ feature 'Authorization' do
   context 'visitor' do
     scenario 'visits home index page' do
       [
-        'Account Settings', 'Manage Categories', 'Manage Pages'
+        'Account Settings', 'Edit Homepage',
+        'Manage Categories', 'Manage Pages'
       ].each do |link_text|
         expect(page).to_not have_link link_text
+      end
+    end
+
+    scenario 'attempts to edit homepage' do
+      visit edit_home_path
+      expect(page).to have_content 'not authorized'
+      expect(current_path).to_not eq edit_home_path
+    end
+
+    scenario 'attempts to visit categories index' do
+      visit categories_path
+
+      expect(page).to have_content 'not authorized'
+      expect(page).to_not have_selector 'h2', text: 'Manage Categories'
+      expect(page).to_not have_link 'New Category'
+    end
+
+    scenario 'attempts to create category' do
+      visit new_category_path
+
+      expect(page).to have_content 'not authorized'
+      expect(page).to_not have_selector 'h2', text: 'Create New Category'
+    end
+
+    scenario 'attempts to visit pages index' do
+      visit pages_path
+
+      expect(page).to have_content 'not authorized'
+      expect(page).to_not have_selector 'h2', text: 'Manage Pages'
+      expect(page).to_not have_link 'New Page'
+    end
+
+    context 'with existing category' do
+      let!(:existing_category) do
+        create :category, name: category_name, body: category_body
+      end
+
+      scenario 'attempts to edit category' do
+        visit edit_category_path existing_category
+
+        expect(page).to have_content 'not authorized'
+        expect(page).to_not have_selector 'h2', text: 'Edit Category'
+      end
+
+      scenario 'attempts to create page' do
+        visit new_page_path
+
+        expect(page).to have_content 'not authorized'
+        expect(page).to_not have_selector 'h2', text: 'Create New Page'
+      end
+
+      context 'with existing page' do
+        let!(:existing_page) do
+          create :page,
+          title: page_title, body: page_body,
+          category: existing_category
+        end
+
+        scenario 'attempts to edit page' do
+          visit edit_page_path existing_page
+
+          expect(page).to have_content 'not authorized'
+          expect(page).to_not have_selector 'h2', text: 'Edit Page'
+        end
       end
     end
   end

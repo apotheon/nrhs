@@ -1,4 +1,10 @@
 class HomeController < ApplicationController
+  include UserHelper
+
+  before_action :redirect_non_admin, only: [
+    :edit, :update
+  ]
+
   def index
     show
     render :show

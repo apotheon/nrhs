@@ -1,4 +1,10 @@
 class PagesController < ApplicationController
+  include UserHelper
+
+  before_action :redirect_non_admin, only: [
+    :index, :new, :edit, :create, :update, :destroy
+  ]
+
   before_action :find_page, only: [:show, :edit, :update, :destroy]
   before_action :get_category_id, only: [:create, :update]
   before_action :category_selections, only: [:new, :edit, :update, :create]
