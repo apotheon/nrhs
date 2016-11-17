@@ -1,10 +1,7 @@
 class CategoriesController < ApplicationController
   include UserHelper
 
-  before_action :redirect_non_admin, only: [
-    :index, :new, :edit, :create, :update, :destroy
-  ]
-
+  before_action :redirect_non_admin, except: :show
   before_action :find_category, only: [:show, :edit, :update, :destroy]
 
   def index
