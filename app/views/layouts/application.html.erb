@@ -12,8 +12,10 @@
     <%= render 'layouts/header' %>
     <%= render 'layouts/main_nav' %>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <div class="flash-messages">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+    </div>
 
     <div class="content">
       <%= yield %>

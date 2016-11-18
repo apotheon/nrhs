@@ -18,14 +18,15 @@
   width: 700px;
 }
 
-.alert {
-  color: $nrhs-red;
+div.flash-messages {
   text-align: center;
   font-weight: bold;
 }
 
+.alert {
+  color: $nrhs-red;
+}
+
 .notice {
-  color: #116633;
-  text-align: center;
-  font-weight: bold;
+  color: $success-green;
 }
