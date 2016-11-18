@@ -7,9 +7,8 @@ Rails.application.routes.draw do
 
   resources :pages
   resources :categories
-  resource :home do
+  resource :home, only: [:edit, :update] do
     get 'edit', on: :member, to: 'home#edit'
-    get 'update', on: :member, to: 'home#update'
     patch 'update', on: :member, to: 'home#update'
   end
 end

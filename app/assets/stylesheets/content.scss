@@ -17,3 +17,16 @@
   margin-right: auto;
   width: 700px;
 }
+
+div.flash-messages {
+  text-align: center;
+  font-weight: bold;
+}
+
+.alert {
+  color: $nrhs-red;
+}
+
+.notice {
+  color: $success-green;
+}
