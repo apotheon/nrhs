@@ -18,6 +18,16 @@
   width: 700px;
 }
 
+@media (max-width: 707px) {
+  .banner {
+    width: 100%;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
 div.flash-messages {
   text-align: center;
   font-weight: bold;
