@@ -1,53 +1,60 @@
+.nav a {
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 0.7em;
+}
+
 .main-nav {
   background: $nav-grey;
 
+  a {
+    display: block;
+    color: $attention-grey;
+  }
+
+  a:hover {
+    color: $rich-red;
+  }
+
   ul {
-    display: table;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    list-style: none;
+    border: none;
     padding: 0;
   }
 
   li {
-    display: table-cell;
-    width: 150px;
+    margin: 0;
+    max-width: 100%;
+    min-width: 150px;
     padding: 0.5em;
     text-align: center;
 
     float: none;
 
-    a {
-      text-transform: uppercase;
-      text-decoration: none;
-      font-weight: 900;
-      font-style: italic;
-      font-size: 0.7em;
-      color: $attention-grey;
-    }
-
-    a:hover {
-      color: $rich-red;
-    }
-
     ul {
       visibility: hidden;
-      display: block;
       position: absolute;
       margin-top: 3px;
+      margin-bottom: 0;
+      border: thin solid black;
+      background: $nav-grey;
+      padding: 0;
 
       li {
-        display: block;
         padding: 0;
         text-align: left;
 
         a {
-          display: block;
           margin: 1px;
-          background: $nav-grey;
           padding: 1em;
-          color: $attention-grey;
-        }
-
-        a:hover {
-          color: $rich-red;
         }
       }
     }
@@ -57,21 +64,7 @@
     visibility: visible;
   }
 
-  ul.userbar {
-    width: 250px;
-  }
-
-  ul.navbar {
+  ul.nav-menus {
     margin-top: 0;
-    margin-left: auto;
-    margin-right: auto;
   }
-}
-
-.nav a {
-  text-transform: uppercase;
-  text-decoration: none;
-  font-weight: 900;
-  font-style: italic;
-  font-size: 0.7em;
 }
