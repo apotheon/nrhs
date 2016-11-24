@@ -4,6 +4,16 @@
   font-weight: 900;
   font-style: italic;
   font-size: 0.7em;
+
+  li {
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    li {
+      font-size: 1.2em;
+    }
+  }
 }
 
 .main-nav {
@@ -68,12 +78,12 @@
     ul {
       flex-direction: column;
       background: $base-background;
+    }
 
-      li {
-        margin-top: 1px;
-        margin-bottom: 2px;
-        background: $nav-grey;
-      }
+    li {
+      margin-top: 1px;
+      margin-bottom: 2px;
+      background: $nav-grey;
     }
 
     li:hover ul {
