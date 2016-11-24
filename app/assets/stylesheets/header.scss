@@ -2,6 +2,15 @@ div.header {
   margin: 0;
   padding: 0;
 
+  a, img {
+    display: block;
+    margin: 0;
+    max-width: 100%;
+    height: auto;
+    border: none;
+    padding: 0;
+  }
+
   ul {
     display: flex;
     flex-direction: row;
@@ -17,14 +26,6 @@ div.header {
       max-width: 100%;
       min-width: 10em;
       padding: 0.5em;
-
-      a, img {
-        margin: 0;
-        max-width: 100%;
-        height: auto;
-        border: none;
-        padding: 0;
-      }
     }
   }
 
@@ -36,8 +37,6 @@ div.header {
     padding: 0;
 
     a {
-      display: block;
-      margin: 0;
       margin-bottom: 0.3em;
       background: $attention-grey;
       padding: 0.5em;
