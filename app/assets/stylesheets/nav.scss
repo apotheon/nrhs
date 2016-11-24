@@ -64,6 +64,23 @@
     visibility: visible;
   }
 
+  @media (max-width: 900px) {
+    ul {
+      flex-direction: column;
+      background: $base-background;
+
+      li {
+        margin-top: 1px;
+        margin-bottom: 2px;
+        background: $nav-grey;
+      }
+    }
+
+    li:hover ul {
+      visibility: hidden;
+    }
+  }
+
   ul.nav-menus {
     margin-top: 0;
   }
