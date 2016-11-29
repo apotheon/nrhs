@@ -33,13 +33,24 @@ NRHS V-Twin Performance
 Visit `http://localhost:3000`.
 
 
-## Deployment
+## Deploying
 
-pending
+Committing new code to `master` automatically deploys new code to Heroku.  If
+your new code requires database migrations, use the Heroku command line tool to
+run migrations:
+
+    $ heroku run -a nrhs rake db:migrate
+
 
 ## Administration
 
 ### Create Admin Account
 
+Development:
+
     $ cd /path/to/project
     $ bundle exec rake nrhs:create_admin[admin@example.com,password]
+
+Production:
+
+    $ heroku run -a nrhs rake nrhs:create_admin[admin@example.com,password]
