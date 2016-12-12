@@ -50,6 +50,18 @@ textarea {
   height: 13em;
 }
 
+input.cancel {
+  cursor: pointer;
+  background: $dark-red;
+  color: $attention-grey;
+  text-align: center;
+}
+
+input.cancel:hover {
+  background: $nrhs-red;
+  color: $base-background;
+}
+
 button {
   border: none;
   width: 100%;
@@ -61,4 +73,6 @@ button {
 
 button:hover {
   cursor: pointer;
+  background: $go-green;
+  color: $base-background;
 }
