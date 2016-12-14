@@ -1,0 +1,12 @@
+<%= form_for @help_doc do |f| %>
+  <div>
+    <%= f.label :help_text, 'Help Text' %>
+    <%= f.text_area :help_text %>
+  </div>
+
+  <div>
+    <%= f.button 'Save Help Text' %>
+  </div>
+<% end %>
+
+<div class="helpdocs"><%= @help_doc_text %></div>
