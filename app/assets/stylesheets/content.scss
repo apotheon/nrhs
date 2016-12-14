@@ -19,6 +19,32 @@
     margin-right: auto;
     width: 100%;
     max-width: 600px;
+    border: medium solid $base-background;
+    padding: 1em;
+
+    h3 {
+      margin: 0;
+      background: $base-background;
+      padding: 1em;
+      text-align: center;
+      color: $attention-grey;
+    }
+
+    blockquote {
+      border: thin solid $base-background;
+      padding: 0.3em;
+      padding-left: 1em;
+      padding-right: 1em;
+
+      h3 {
+        margin-top: 0.7em;
+        margin-bottom: 0.7em;
+        background: $attention-grey;
+        padding: 0;
+        text-align: left;
+        color: $base-background;
+      }
+    }
   }
 }
 
