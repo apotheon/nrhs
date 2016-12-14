@@ -7,8 +7,18 @@
   background: $attention-grey;
   padding: 3em;
 
+  color: $base-background;
+
   h1 {
     color: $nrhs-red;
+  }
+
+  .helpdocs {
+    margin-top: 5em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 600px;
   }
 }
 
@@ -39,12 +49,4 @@ div.flash-messages {
 
 .notice {
   color: $success-green;
-}
-
-.helpdocs {
-  margin-top: 5em;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  max-width: 600px;
 }
