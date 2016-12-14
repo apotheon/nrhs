@@ -78,6 +78,12 @@ feature 'Authorization' do
       expect(current_path).to_not eq edit_home_path
     end
 
+    scenario 'attempts to edit help doc text' do
+      visit edit_help_doc_path
+      expect(page).to have_content 'not authorized'
+      expect(current_path).to_not eq edit_help_doc_path
+    end
+
     scenario 'attempts to visit categories index' do
       visit categories_path
 

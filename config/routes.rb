@@ -7,6 +7,12 @@ Rails.application.routes.draw do
 
   resources :pages
   resources :categories
+
+  resource :help_doc, only: [:edit, :update] do
+    get 'edit', on: :member, to: 'help_docs#edit'
+    patch 'update', on: :member, to: 'help_docs#update'
+  end
+
   resource :home, only: [:edit, :update] do
     get 'edit', on: :member, to: 'home#edit'
     patch 'update', on: :member, to: 'home#update'

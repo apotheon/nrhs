@@ -1,0 +1,2 @@
+class HelpDoc < ApplicationRecord
+end
