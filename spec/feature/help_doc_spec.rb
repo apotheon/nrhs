@@ -3,7 +3,8 @@ require 'rails_helper'
 feature 'Help Text' do
   context 'signed in admin' do
     let(:admin) { create :user, :admin }
-    let(:help_text) { 'this is text' }
+    let(:help_text) { 'Formatting Help' }
+    let(:help_markdown) { "## #{help_text}" }
     let(:category) { create :category }
     let!(:test_page) { create :page, category: category }
 
@@ -13,7 +14,7 @@ feature 'Help Text' do
 
     scenario 'edits help document' do
       visit edit_help_doc_path
-      fill_in 'Help Text', with: help_text
+      fill_in 'Help Text', with: help_markdown
       click_on 'Save Help Text'
 
       expect(page).to have_content 'Help Text Updated'
@@ -27,7 +28,7 @@ feature 'Help Text' do
         new_page_path
       ].each do |form_page|
         visit form_page
-        expect(page).to have_content help_text
+        expect(page).to have_selector 'h2', text: help_text
       end
     end
   end
