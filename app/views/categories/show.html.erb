@@ -5,7 +5,7 @@
 
 <h2><%= @category.name %></h2>
 
-<%= @category.body %>
+<%= markdown @category.body %>
 
 <ul>
   <% @category.sorted_pages.each do |page| %>
