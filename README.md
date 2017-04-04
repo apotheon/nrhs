@@ -5,8 +5,10 @@ NRHS V-Twin Performance
 
 ## Dependencies
 
+The recommended means of meeting dependency requirements is via rbenv.
+
     $ ruby -v
-    ruby 2.2.3p173 (2015-08-18 revision 51636) [x86_64-linux]
+    ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]
 
     $ rails -v
     Rails 5.0.0.1
@@ -21,14 +23,23 @@ NRHS V-Twin Performance
     $ bundle exec rake db:setup
 
 
-## Testing
+## Development Environment
 
-    $ bundle exec rspec
+For general development purposes, you can run a server and get some nice
+automatic test-runner facilities by running guard in a separate window while
+editing code:
 
+    $ bundle exec guard
 
-## Running
+You can also run tests and a local server instance separately:
+
+### Server
 
     $ bundle exec rails server
+
+### Testing
+
+    $ bundle exec rspec
 
 Visit `http://localhost:3000`.
 
