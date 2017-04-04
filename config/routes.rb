@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :pages
   resources :categories
+  resources :images
 
   resource :help_doc, only: [:edit, :update] do
     get 'edit', on: :member, to: 'help_docs#edit'
